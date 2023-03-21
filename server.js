@@ -116,7 +116,7 @@ app.delete(`/api/notes/:id`, (req, res) => {
   })
 })
 
-//Have the server run on port 3001
-app.listen(process.env.PORT || 3001, () =>
+//Have the server run on port 80
+app.listen(process.env.PORT || 80, () =>
   console.log(`Note taking app listening at http://localhost:${PORT}`)
 );
