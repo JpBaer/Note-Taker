@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const util = require('util');
 
-//const PORT = 3001;
+const PORT = 80;
 const app = express();
 //Generates unique id tags for stored data
 const uuid = require('./helpers/uuid');
