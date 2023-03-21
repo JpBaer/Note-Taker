@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const util = require('util');
 
-const PORT = 3001;
+//const PORT = 3001;
 const app = express();
 //Generates unique id tags for stored data
 const uuid = require('./helpers/uuid');
@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const readFromFile = util.promisify(fs.readFile);
+
 app.use(express.static('public'));
 // Shows the homepage anytime a url is entered aside from /notes
 app.get('/', (req, res) =>
@@ -51,13 +52,17 @@ app.post('/api/notes', (req, res) => {
     }
   }
 
+  // read in original db file
   fs.readFile(`./db/db.json`, 'utf8', (err, data) => {
     if (err) {
       console.error(err)
     }
     else {
       const parsedNotes = JSON.parse(data);
+
+     // add new note to original db file 
       parsedNotes.push(newNote);
+
       const noteString = JSON.stringify(parsedNotes);
 
       fs.writeFile(`./db/db.json`, noteString, (err) =>
@@ -75,10 +80,11 @@ app.post('/api/notes', (req, res) => {
   //Create section to write file  (Reference activity 19 and 20 Data Persistence)
 })
 
-//Deletes JSON data based on unique idea in url
+//Deletes JSON data based on unique id in url
 app.delete(`/api/notes/:id`, (req, res) => {
   const id = req.params.id
   console.log(id)
+
   fs.readFile(`./db/db.json`, 'utf8', (err, data) => {
     if (err) {
       console.error(err)
@@ -111,6 +117,6 @@ app.delete(`/api/notes/:id`, (req, res) => {
 })
 
 //Have the server run on port 3001
-app.listen(PORT, () =>
+app.listen(process.env.PORT || 3001, () =>
   console.log(`Note taking app listening at http://localhost:${PORT}`)
 );
