@@ -39,7 +39,7 @@ app.get('/api/notes', (req, res) => {
 //Adds another item to JSON file
 //Need to read in the JSON file first so you can append new data and then resave the JSON
 app.post('/api/notes', (req, res) => {
-
+  console.log('new note submitted')
   //deconstruct post data
   const { title, text } = req.body;
 
@@ -73,7 +73,7 @@ app.post('/api/notes', (req, res) => {
           )
       );
     }
-  })
+  }).then(() => noteString)
 
   //Create section to read in current JSON
   //Append new Note to old JSON
@@ -113,7 +113,7 @@ app.delete(`/api/notes/:id`, (req, res) => {
       );
     }
 
-  })
+  }).then(() => noteString)
 })
 
 //Have the server run on port 80
